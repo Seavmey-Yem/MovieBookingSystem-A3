@@ -1,11 +1,13 @@
+// src/models/Booking.ts
 import { Status } from "../enums/Status";
-import { User } from "./User";
 
 export class Booking {
-    constructor(
+  constructor(
     public id: number,
+    public movieId: number,
+    public showTime: Date,
+    public seats: number[],
     public bookingDate: Date,
-    public status: Status,
-    public user: User
-    ) {}
+    public status: Status
+  ) {}
 }

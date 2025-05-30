@@ -1,11 +1,19 @@
-export class User {
-  constructor(
-  public id: number,
-  public name: string,
-  public email: string,
-  public password: string,
-  ) {}
-}
+// src/models/User.ts
+import { Booking } from './Booking';
+import { Person } from './Person';
 
-// const user = new User(1, "Vanda", "vanda@example.com", "123456");
-// console.log(user.name); // Vanda
+export class User extends Person {
+  constructor(
+    public id: number,
+    public name: string,
+    public email: string,
+    public password: string,
+    public booking: Booking[] = [] // Initialize as empty array
+  ) {
+    super(id, name, email);
+  }
+
+  getRole(): string {
+    return 'User';
+  }
+}

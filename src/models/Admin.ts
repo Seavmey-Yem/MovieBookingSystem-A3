@@ -1,17 +1,17 @@
-// src/models/Staff.ts
+// src/models/Admin.ts
 import { Person } from './Person';
 
-export class Staff extends Person {
+export class Admin extends Person {
   constructor(
     public id: number,
     public name: string,
     public email: string,
-    public department: string
+    public accessLevel: number
   ) {
     super(id, name, email);
   }
 
   getRole(): string {
-    return 'Staff';
+    return 'Admin';
   }
 }
