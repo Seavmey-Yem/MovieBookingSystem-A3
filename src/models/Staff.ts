@@ -1,3 +1,4 @@
+import { MovieService } from '../methods/MovieService';
 import { Person } from './Person';
 
 export class Staff extends Person {
@@ -44,5 +45,8 @@ export class Staff extends Person {
     }
     console.log(`${this.name} collected $${amount} in ${this.department} department.`);
     return true;
+  }
+  showMovies(movieService: MovieService): void {
+      movieService.showListOfMovie();
   }
 }

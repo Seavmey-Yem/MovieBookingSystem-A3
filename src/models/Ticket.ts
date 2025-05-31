@@ -7,5 +7,14 @@ export class Ticket {
     public qrCode: string,
     public seatDetails: string[]
   ) {}
+
+  printTicket(): void {
+    console.log("🎟️ ----- Ticket Details ----- 🎟️");
+    console.log(`Ticket ID: ${this.ticketId}`);
+    console.log(`Reference Code: ${this.referenceCode}`);
+    console.log(`QR Code: ${this.qrCode}`);
+    console.log(`Seats: ${this.seatDetails.join(', ')}`);
+    console.log("-----------------------------");
+  }
 }
 

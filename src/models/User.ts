@@ -1,5 +1,8 @@
+import { MovieService } from '../methods/MovieService';
 import { Booking } from './Booking';
 import { Person } from './Person';
+import { Receipt } from './Receipt';
+import { Ticket } from './Ticket';
 
 export class User extends Person {
   constructor(
@@ -32,15 +35,18 @@ export class User extends Person {
   }
 
   // Method to add a booking
-  addBooking(booking: Booking): boolean {
-    if (!booking || !booking.id || !booking.movieId || !booking.showTime) {
-      console.log(`Booking failed for ${this.name}: Invalid booking details.`);
-      return false;
-    }
-    this.booking.push(booking);
-    console.log(`Booking succeeded for ${this.name}: Movie ID ${booking.movieId} at ${booking.showTime}`);
-    return true;
+addBooking(booking: Booking, receipt: Receipt): boolean {
+  if (!booking || !booking.id || !booking.movieId || !booking.showTime) {
+    console.log(`Booking failed for ${this.name}: Invalid booking details.`);
+    return false;
   }
+
+  this.booking.push(booking);
+  receipt.printReceipt();
+  receipt.ticket.printTicket();
+  return true;
+}
+
 
   // Method to add a review
   addReview(movieId: number, rating: number, comment: string): boolean {
@@ -61,4 +67,7 @@ export class User extends Person {
     console.log(`Payment succeeded for ${this.name}: $${amount} via ${method}`);
     return true;
   }
+      showMovies(movieService: MovieService): void {
+      movieService.showListOfMovie();
+    }
 }
