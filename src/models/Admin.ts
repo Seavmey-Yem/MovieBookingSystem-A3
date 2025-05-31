@@ -1,4 +1,3 @@
-// src/models/Admin.ts
 import { Person } from './Person';
 
 export class Admin extends Person {
@@ -13,5 +12,20 @@ export class Admin extends Person {
 
   getRole(): string {
     return 'Admin';
+  }
+
+  // Login method to verify email
+  login(enteredEmail: string): boolean {
+    if (!enteredEmail) {
+      console.log(`Login failed for ${this.name}: Missing email.`);
+      return false;
+    }
+    const isValid = this.email === enteredEmail;
+    if (isValid) {
+      console.log(`Login succeeded for ${this.name} (Role: Admin)`);
+    } else {
+      console.log(`Login failed for ${this.name}: Incorrect email.`);
+    }
+    return isValid;
   }
 }
