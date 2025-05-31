@@ -1,9 +1,9 @@
-// import { Showtime } from "./Showtime";
+import { ShowTime } from "./ShowTime";
 export class Cinema {
   constructor(
     public id: number,
     public name: string,
     public location: string,
-    // public showtimes: Showtime[] = []
+    public showtimes: ShowTime[] = []
   ) {}
 }

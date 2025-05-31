@@ -6,5 +6,5 @@ export abstract class Person {
     public email: string
   ) {}
 
-  abstract getRole(): string; // Abstract method to be implemented by subclasses
+  abstract getRole(): string; 
 }

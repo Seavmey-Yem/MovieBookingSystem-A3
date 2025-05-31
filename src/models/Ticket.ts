@@ -1,14 +1,11 @@
 import { Booking } from "./Booking";
 
 export class Ticket {
-
-    constructor(
-    public id: number,
-    public booking: Booking,
+  constructor(
+    public ticketId: number,
+    public referenceCode: string,
     public qrCode: string,
-    public referenceNumber: string
-    ) {
-
-    }
-
+    public seatDetails: string[]
+  ) {}
 }
+

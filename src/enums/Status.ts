@@ -1,5 +1,5 @@
 export enum Status{
     AVAILABLE = "AVAILABLE",
-    RESERVE = "RESERVE",
+    RESERVED = "RESERVED",
     BOOKED = "BOOKED"
 }

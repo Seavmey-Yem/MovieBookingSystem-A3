@@ -1,4 +1,4 @@
-// src/models/Movie.ts
+
 import { ShowTime } from "./ShowTime";
 
 export class Movie {

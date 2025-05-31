@@ -8,7 +8,7 @@ export class User extends Person {
     public name: string,
     public email: string,
     public password: string,
-    public booking: Booking[] = [] // Initialize as empty array
+    public booking: Booking[] = [] 
   ) {
     super(id, name, email);
   }
