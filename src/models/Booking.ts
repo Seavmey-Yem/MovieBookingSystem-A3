@@ -1,4 +1,4 @@
-// src/models/Booking.ts
+
 import { Status } from "../enums/Status";
 
 export class Booking {

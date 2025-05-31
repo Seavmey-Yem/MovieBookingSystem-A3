@@ -1,4 +1,4 @@
-// src/models/Person.ts
+
 export abstract class Person {
   constructor(
     public id: number,
