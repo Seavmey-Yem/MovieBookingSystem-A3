@@ -1,8 +1,10 @@
+import { AdminService } from '../methods/AdminService';
 import { MovieService } from '../methods/MovieService';
 import { Booking } from './Booking';
+import { Movie } from './Movie';
 import { Person } from './Person';
 import { Receipt } from './Receipt';
-import { Ticket } from './Ticket';
+import { Review } from './Review';
 
 export class User extends Person {
   constructor(
@@ -48,16 +50,6 @@ addBooking(booking: Booking, receipt: Receipt): boolean {
 }
 
 
-  // Method to add a review
-  addReview(movieId: number, rating: number, comment: string): boolean {
-    if (!movieId || rating < 0 || rating > 5 || !comment) {
-      console.log(`Review failed for ${this.name}: Invalid rating (0-5) or missing comment.`);
-      return false;
-    }
-    console.log(`Review succeeded for ${this.name}: Movie ID ${movieId}, Rating ${rating}, Comment "${comment}"`);
-    return true;
-  }
-
   // Method to process a payment
   makePayment(amount: number, method: string): boolean {
     if (amount <= 0 || !method) {
@@ -70,4 +62,31 @@ addBooking(booking: Booking, receipt: Receipt): boolean {
       showMovies(movieService: MovieService): void {
       movieService.showListOfMovie();
     }
+
+      showSeatBook(adnimService:AdminService): void {
+          adnimService.showSeatBooked();
+      }
+      addReview(movie: Movie, rating: number, comment: string): Review | null {
+  // Basic validation
+  if (!movie || rating < 0 || rating > 5 || !comment.trim()) {
+    console.log("Invalid review data.");
+    return null;
+  }
+
+  // Create new review
+  const newReview = new Review(Date.now(), this, movie, rating, comment);
+
+  // Add to movie's review list
+  if (!movie.reviews) {
+    movie.reviews = [];
+  }
+  movie.reviews.push(newReview);
+
+  console.log(`Thank you ${this.name} for your rating "${movie.title}".`);
+  return newReview;
 }
+
+      
+}
+
+

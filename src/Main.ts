@@ -1,101 +1,105 @@
-import { UserService } from './methods/UserService';
-import { StaffService } from './methods/StaffService';
-import { AdminService } from './methods/AdminService';
-import { User } from './models/User';
-import { Staff } from './models/Staff';
-import { Admin } from './models/Admin';
+import { Genre } from "./enums/Genre";
+import { Role } from "./enums/Role";
+import { Status } from "./enums/Status";
+import { Zone } from "./enums/Zone";
+import { AdminService } from "./methods/AdminService";
+import { BookingService } from "./methods/BookingService";
+import { Admin } from "./models/Admin";
+import { Booking } from "./models/Booking";
+import { Cinema } from "./models/Cinema";
+import { Movie } from "./models/Movie";
+import { Payment } from "./models/Payment";
+import { PaymentMethod } from "./models/PaymentMethod";
+import { Review } from "./models/Review";
+import { Seat } from "./models/Seat";
+import { ShowTime } from "./models/ShowTime";
+import { Staff } from "./models/Staff";
+import { Theater } from "./models/Theater";
+import { User } from "./models/User";
 
-// Instantiate services
-const userService = new UserService();
-const staffService = new StaffService();
-const adminService = new AdminService();
+// Movie list to hold all movies
+let movieList: Movie[] = [];
 
-console.log('--- Step 1: Registering initial users ---');
-const user1 = userService.register("Vanda", "vanda@example.com", "password123");
-console.log('User 1 registered: Vanda');
-const user2 = userService.register("Sokha", "sokha@example.com", "pass456");
-console.log('User 2 registered: Sokha');
-const user3 = userService.register("Chandy", "chandy@example.com", "pass789");
-console.log('User 3 registered: Chandy');
-const user4 = userService.register("Rithy", "rithy@example.com", "pass101");
-console.log('User 4 registered: Rithy');
-const user5 = userService.register("Poleak", "poleak@example.com", "pass112");
-console.log('User 5 registered: Poleak');
+// Admin 
+let admin = new Admin(1, "Horth", "horth@gmail.com", Role.ADNIM ,1);
 
-const user6 = userService.register("Extra", "extra@example.com", "pass");
-if (!user6) {
-  console.log('User 6 registration failed: limit reached');
-}
+// Staff
+let Saff1 = new Staff(1, "pheak", "pheak@gmail.com", Role.SAFF);
 
-console.log('\n--- Step 2: Registering initial staff ---');
-const staff1 = staffService.registerStaff("Seavmey", "seavmey@example.com", "Concession");
-console.log('Staff 1 registered: Seavmey');
-const staff2 = staffService.registerStaff("Pisey", "pisey@example.com", "Ticket");
-console.log('Staff 2 registered: Pisey');
-const staff3 = staffService.registerStaff("Sopheak", "sopheak@example.com", "Cleaning");
-console.log('Staff 3 registered: Sopheak');
+// User 
+let user1 = new User(1, "Vannda", "Vannda@gmail.com", "12345");
+user1.login("Vannda@gmail.com", "12345");
 
-const staff4 = staffService.registerStaff("Extra", "extra2@example.com", "");
-if (!staff4) {
-  console.log('Staff 4 registration failed: limit reached');
-}
+// Create Cinemas
+let cinema1 = new Cinema(1, "Cinema One", "Downtown");
+let cinema2 = new Cinema(2, "Cinema Two", "Uptown");
 
-console.log('\n--- Step 3: Registering initial admins ---');
-const admin1 = adminService.registerAdmin("Horth", "horth@example.com", 5);
-console.log('Admin 1 registered: Horth');
+// Create Theaters
+let theater1 = new Theater(1, "Theater 1", [], [cinema1]);
+let theater2 = new Theater(2, "Theater 2", [], [cinema1]);
+let theater3 = new Theater(3, "Theater 3", [], [cinema2]);
 
-const admin2 = adminService.registerAdmin("Extra", "extra3@example.com", 3);
-if (!admin2) {
-  console.log('Admin 2 registration failed: limit reached');
-}
+// Create movies without showtimes first
+let movie1 = new Movie(1, "Inception", Genre.ACTION, 148, []);
+let movie2 = new Movie(2, "The Conjuring", Genre.HORROR, 112, []);
 
-console.log('\n--- Step 4: Registering new admins only ---');
-const newAdmin1 = adminService.registerNewPerson("Yon", "yon@example.com", 4);
-if (!newAdmin1) {
-  console.log('New admin registration failed: limit reached');
-}
+// Create showtimes
+let showtime1 = new ShowTime(1, movie1, cinema1, theater1, new Date("2025-06-01T14:00:00"));
+let showtime2 = new ShowTime(2, movie1, cinema1, theater2, new Date("2025-06-01T18:30:00"));
+let showtime3 = new ShowTime(3, movie2, cinema1, theater3, new Date("2025-06-01T16:00:00"));
+let showtime4 = new ShowTime(4, movie2, cinema1, theater1, new Date("2025-06-01T20:00:00"));
 
-console.log('\n--- Step 5: Testing login ---');
-const loginSuccess = userService.login("vanda@example.com", "password123");
-console.log(loginSuccess ? 'User login succeeded: vanda@example.com' : 'User login failed: vanda@example.com');
+// Assign showtimes to movies
+movie1.showtime.push(showtime1, showtime2);
+movie2.showtime.push(showtime3, showtime4);
 
-const loginFail = userService.login("vanda@example.com", "wrongpass");
-console.log(loginFail ? 'User login succeeded (unexpected): vanda@example.com' : 'User login failed as expected: vanda@example.com');
+// Add showtimes to cinemas
+cinema1.showtimes.push(showtime1, showtime2, showtime3, showtime4);
 
-const adminLoginFail = userService.login("horth@example.com", "");
-console.log(adminLoginFail ? 'Admin login succeeded (unexpected): horth@example.com' : 'Admin login failed as expected: horth@example.com');
+// Admin adds movies to the movieList
+admin.addMovie(movieList, movie1);
+admin.addMovie(movieList, movie2);
+// console.log("Current movie list:", movieList);
 
-console.log('\n--- Step 6: Viewing users ---');
-for (let id = 1; id <= 6; id++) {
-  const user = userService.getPersonById(id);
-  if (user) {
-    console.log('User found: ' + user.name + ' (ID: ' + id + ')');
-  } else {
-    console.log('User not found for ID: ' + id);
-  }
-}
+// Create seats in that theater
+let seat1 = new Seat(1, 1, theater1, Zone.VIP,Status.AVAILABLE);
+let seat2 = new Seat(2, 2, theater1, Zone.VIP, Status.AVAILABLE);
+let seat3 = new Seat(3, 3, theater1, Zone.STANDARD, Status.AVAILABLE);
 
-console.log('\n--- Step 7: Attempting to view staff (restricted) ---');
-for (let id = 1; id <= 4; id++) {
-  const staff = staffService.getPersonById(id);
-  if (staff) {
-    console.log('Staff found: ' + staff.name + ' (ID: ' + id + ')');
-  } else {
-    console.log('Staff not found for ID: ' + id);
-  }
-}
+// Add seats to theater's seat list (if you want)
+theater1.seat.push(seat1, seat2, seat3);
 
-console.log('\n--- Step 8: Attempting to view admins (restricted) ---');
-for (let id = 1; id <= 2; id++) {
-  const admin = adminService.getPersonById(id);
-  if (admin) {
-    console.log('Admin found: ' + admin.name + ' (ID: ' + id + ')');
-  } else {
-    console.log('Admin not found for ID: ' + id);
-  }
-}
+// Define some payment methods
+let creditCard = new PaymentMethod(1, "Credit Card", "Visa **** 1234");
+let mobilePay = new PaymentMethod(2, "Mobile Pay", "PayPal user@example.com");
 
-console.log('\n--- Step 9: Final system counts ---');
-userService.displayCounts();
-staffService.displayCounts();
-adminService.displayCounts();
+let booking2 = new Booking(
+  2,
+  movie1.id,
+  user1,
+  movie1,
+  showtime1,
+  [seat1, seat2],
+  new Date(),
+  Status.BOOKED,
+  new Payment(
+    2,
+    null as any, 
+    mobilePay ,
+    25.00,
+    1.50,
+    0.50
+  )
+);
+
+let service = new AdminService();
+let bookingService = new BookingService();
+let receipt = bookingService.completeBooking(booking2, mobilePay);
+// user1.addBooking(booking2, receipt);
+// user1.showSeatBook(service);
+
+// admin.checkUserBooking([user1]);
+
+user1.addReview(movie1, 4.5, "Amazing movie with a deep plot!");
+
+Saff1.showReview(movieList);

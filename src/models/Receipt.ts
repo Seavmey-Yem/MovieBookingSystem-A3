@@ -21,7 +21,6 @@ export class Receipt {
     if (movie) {
       console.log(`Movie: ${movie.title}`);
       console.log(`Duration: ${movie.duration} minutes`);
-      console.log(`Rating: ${movie.rating}`);
     } else {
       console.log("Movie: Unknown");
     }

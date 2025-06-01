@@ -1,35 +1,38 @@
 import { Person } from '../models/Person';
 import { Admin } from '../models/Admin';
+import { Seat } from '../models/Seat';
+import { Role } from '../enums/Role';
 
 export class AdminService {
   private people: Person[] = [];
-  private readonly MAX_ADMINS = 1; // Maximum number of admins
+  private readonly MAX_ADMINS = 1; 
+  private seats: Seat[] = [];
 
   // Register an Admin
-  registerAdmin(name: string, email: string, accessLevel: number): Admin | null {
+  registerAdmin(name: string, email: string,department:Role, accessLevel: number): Admin | null {
     const adminCount = this.people.filter(p => p.getRole() === 'Admin').length;
     if (adminCount >= this.MAX_ADMINS || !name || !email || accessLevel === undefined || accessLevel < 0) {
-      this.displayCounts(); // Show counts on failure without message
+      this.displayCounts(); 
       return null;
     } else {
       const id = this.people.length + 1;
-      const admin = new Admin(id, name, email, accessLevel);
+      const admin = new Admin(id, name, email,department, accessLevel);
       this.people.push(admin);
       console.log(`Admin registered: ID=${id}, Name=${name}, Email=${email}, AccessLevel=${accessLevel} - Registration succeeded for Admin: ${name}`);
-      this.displayCounts(); // Show counts after registration
+      this.displayCounts();
       return admin;
     }
   }
 
   // Restrict new registrations to admins only
-  registerNewPerson(name: string, email: string, accessLevel: number): Admin | null {
+  registerNewPerson(name: string, email: string, department:Role, accessLevel: number): Admin | null {
     const adminCount = this.people.filter(p => p.getRole() === 'Admin').length;
     if (adminCount >= this.MAX_ADMINS || !name || !email || accessLevel === undefined || accessLevel < 0) {
-      this.displayCounts(); // Show counts on failure without message
+      this.displayCounts(); 
       return null;
     } else {
       const id = this.people.length + 1;
-      const admin = new Admin(id, name, email, accessLevel);
+      const admin = new Admin(id, name, email,department, accessLevel);
       this.people.push(admin);
       console.log(`New Admin registered: ID=${id}, Name=${name}, Email=${email}, AccessLevel=${accessLevel} - Registration succeeded for new Admin: ${name}`);
       this.displayCounts(); // Show counts after registration
@@ -49,8 +52,52 @@ export class AdminService {
   }
 
   // Display counts of admins
-  displayCounts(): void {
-    const adminCount = this.people.filter(p => p.getRole() === 'Admin').length;
-    console.log(`Current Admin Count: Admins=${adminCount}`);
+displayCounts(): void {
+  const adminList = this.people.filter(p => p.getRole() === 'Admin');
+  const staffList = this.people.filter(p => p.getRole() === 'Staff');
+  const userList = this.people.filter(p => p.getRole() === 'User');
+
+  console.log(`\nQuantity Admin: ${adminList.length}`);
+  if (adminList.length > 0) {
+    const names = adminList.map(p => `Admin: ${p.name}`).join(', ');
+    console.log(`Persons: (${names})`);
   }
+
+  console.log(`\nQuantity Staff: ${staffList.length}`);
+  if (staffList.length > 0) {
+    const names = staffList.map(p => `Staff: ${p.name}`).join(', ');
+    console.log(`Persons: (${names})`);
+  }
+
+  console.log(`\nQuantity User: ${userList.length}`);
+  if (userList.length > 0) {
+    const names = userList.map(p => `User: ${p.name}`).join(', ');
+    console.log(`Persons: (${names})`);
+  }
+}
+
+showListOfUser(): void {
+  const userList = this.people.filter(p => p.getRole() === 'User');
+  console.log(`\nList of Users (${userList.length}):`);
+  userList.forEach(user => {
+    console.log(`- ID: ${user.id}, Name: ${user.name}, Email: ${user.email}`);
+  });
+}
+
+showListOfSaff(): void {
+  const staffList = this.people.filter(p => p.getRole() === 'Staff');
+  console.log(`\nList of Staff (${staffList.length}):`);
+  staffList.forEach(staff => {
+    console.log(`- ID: ${staff.id}, Name: ${staff.name}, Email: ${staff.email}`);
+  });
+}
+
+showSeatBooked(): void {
+    const bookedSeats = this.seats.filter(seat => seat.status.toLowerCase() === 'booked');
+    console.log(`\nBooked Seats (${bookedSeats.length}):`);
+    bookedSeats.forEach(seat => {
+      console.log(`- Seat ID: ${seat.id}, Number: ${seat.number}, Zone: ${seat.zone}, Theater: ${seat.theater.name}`);
+    });
+  }
+
 }

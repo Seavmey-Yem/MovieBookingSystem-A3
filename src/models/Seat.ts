@@ -1,3 +1,5 @@
+import { Status } from "../enums/Status";
+import { Zone } from "../enums/Zone";
 import { Theater } from "./Theater";
 
 export class Seat {
@@ -5,7 +7,7 @@ export class Seat {
         public id:number,
         public number:number, 
         public theater:Theater,
-        public zone:string,
-        public status:string
+        public zone:Zone,
+        public status:Status
     ){}
 }

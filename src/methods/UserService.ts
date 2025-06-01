@@ -4,7 +4,7 @@ import { User } from '../models/User';
 
 export class UserService {
   private people: Person[] = [];
-  private readonly MAX_USERS = 5; // Maximum number of users
+  private readonly MAX_USERS = 100; // Maximum number of users
 
   // Register a User (for initial setup only, will be restricted)
   register(name: string, email: string, password: string): User | null {
@@ -39,15 +39,4 @@ export class UserService {
     console.log(`Current User Count: Users=${userCount}`);
   }
 
-  // Login method for users
-  login(email: string, password: string): Person | null {
-    const person = this.people.find(p => p.email === email && p instanceof User && (p as User).password === password);
-    if (person) {
-      console.log(`Login succeeded for: ${person.name} (Role: ${person.getRole()})`);
-      return person;
-    } else {
-      console.log(`Login failed: No user found with email ${email} or incorrect credentials.`);
-      return null;
-    }
-  }
 }

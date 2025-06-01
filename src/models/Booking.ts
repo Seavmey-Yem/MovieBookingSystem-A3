@@ -15,7 +15,7 @@ export class Booking {
     public seats: Seat[], 
     public bookingDate: Date,
     public status: Status,
-    public payment?: Payment,
+    public payment: Payment,
     public ticket?: Ticket
   ) {}
 }

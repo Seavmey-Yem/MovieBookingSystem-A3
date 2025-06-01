@@ -10,4 +10,5 @@ export class Payment {
     public tax: number,
     public bookingfee: number
   ) {}
+  
 }

@@ -26,7 +26,6 @@ export class MovieService {
       console.log(`Title: ${movie.title}`);
       console.log(`Genre: ${movie.genre}`);
       console.log(`Duration: ${movie.duration} minutes`);
-      console.log(`Rating: ${movie.rating}`);
       if (movie.showtime && movie.showtime.length > 0) {
         console.log(`Showtimes:`);
         movie.showtime.forEach((s, i) => {
