@@ -1,6 +1,7 @@
 import { Booking } from "./Booking";
 import { PaymentMethod } from "./PaymentMethod";
 
+// Define Payment class
 export class Payment {
   constructor(
     public id: number,
