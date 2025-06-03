@@ -1,6 +1,8 @@
 import { Role } from '../enums/Role';
+import { Status } from '../enums/Status';
 import { AdminService } from '../methods/AdminService';
 import { MovieService } from '../methods/MovieService';
+import { Booking } from './Booking';
 import { Movie } from './Movie';
 import { Person } from './Person';
 import { User } from './User';
@@ -144,4 +146,21 @@ export class Staff extends Person {
       console.log("No reviews available.");
     }
   }
+
+  // Inside Staff.ts or the relevant class file
+verifyTicket(qrCode: string, bookings: Booking[]): void {
+  // Extract booking ID from the QR code string (e.g., "BOOKING-2")
+  const bookingId = parseInt(qrCode.replace("BOOKING-", ""));
+
+  // Find the booking
+  const booking = bookings.find(b => b.id === bookingId);
+
+  // Validate the booking
+  if (booking && booking.status === Status.BOOKED) {
+    console.log(`✅ Valid ticket for "${booking.movie.title}" at ${booking.showTime.startTime}`);
+  } else {
+    console.log("❌ Invalid or already used ticket.");
+  }
+}
+
 }
