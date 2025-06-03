@@ -17,11 +17,12 @@ export class User extends Person {
     super(id, name, email);
   }
 
+  // Method to get the role of the user
   getRole(): string {
     return 'User';
   }
 
-  // Login method to verify credentials
+  // Method to verify credentials for login
   login(enteredEmail: string, enteredPassword: string): boolean {
     if (!enteredEmail || !enteredPassword) {
       console.log(`Login failed for ${this.name}: Missing email or password.`);
@@ -36,21 +37,20 @@ export class User extends Person {
     return isValid;
   }
 
-  // Method to add a booking
-addBooking(booking: Booking, receipt: Receipt): boolean {
-  if (!booking || !booking.id || !booking.movieId || !booking.showTime) {
-    console.log(`Booking failed for ${this.name}: Invalid booking details.`);
-    return false;
+  // Method to add a booking and print receipt and ticket
+  addBooking(booking: Booking, receipt: Receipt): boolean {
+    if (!booking || !booking.id || !booking.movieId || !booking.showTime) {
+      console.log(`Booking failed for ${this.name}: Invalid booking details.`);
+      return false;
+    }
+
+    this.booking.push(booking);
+    receipt.printReceipt();
+    receipt.ticket.printTicket();
+    return true;
   }
 
-  this.booking.push(booking);
-  receipt.printReceipt();
-  receipt.ticket.printTicket();
-  return true;
-}
-
-
-  // Method to process a payment
+  // Method to process a payment for the user
   makePayment(amount: number, method: string): boolean {
     if (amount <= 0 || !method) {
       console.log(`Payment failed for ${this.name}: Invalid amount or payment method.`);
@@ -59,34 +59,35 @@ addBooking(booking: Booking, receipt: Receipt): boolean {
     console.log(`Payment succeeded for ${this.name}: $${amount} via ${method}`);
     return true;
   }
-      showMovies(movieService: MovieService): void {
-      movieService.showListOfMovie();
+
+  // Method to display a list of movies using MovieService
+  showMovies(movieService: MovieService): void {
+    movieService.showListOfMovie();
+  }
+
+  // Method to display booked seats using AdminService
+  showSeatBook(adnimService: AdminService): void {
+    adnimService.showSeatBooked();
+  }
+
+  // Method to add a review for a movie
+  addReview(movie: Movie, rating: number, comment: string): Review | null {
+    // Basic validation
+    if (!movie || rating < 0 || rating > 5 || !comment.trim()) {
+      console.log("Invalid review data.");
+      return null;
     }
 
-      showSeatBook(adnimService:AdminService): void {
-          adnimService.showSeatBooked();
-      }
-      addReview(movie: Movie, rating: number, comment: string): Review | null {
-  // Basic validation
-  if (!movie || rating < 0 || rating > 5 || !comment.trim()) {
-    console.log("Invalid review data.");
-    return null;
+    // Create new review
+    const newReview = new Review(Date.now(), this, movie, rating, comment);
+
+    // Add review to movie's reviews
+    if (!movie.reviews) {
+      movie.reviews = [];
+    }
+    movie.reviews.push(newReview);
+
+    console.log(`Thank you ${this.name} for your rating "${movie.title}".`);
+    return newReview;
   }
-
-  // Create new review
-  const newReview = new Review(Date.now(), this, movie, rating, comment);
-
-  // Add to movie's review list
-  if (!movie.reviews) {
-    movie.reviews = [];
-  }
-  movie.reviews.push(newReview);
-
-  console.log(`Thank you ${this.name} for your rating "${movie.title}".`);
-  return newReview;
 }
-
-      
-}
-
-

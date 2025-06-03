@@ -5,6 +5,7 @@ import { Payment } from './Payment';
 import { Ticket } from './Ticket';
 import { Movie } from './Movie';
 import { Status } from '../enums/Status';
+// Define Booking class
 export class Booking {
   constructor(
     public id: number,
