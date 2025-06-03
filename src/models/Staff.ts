@@ -3,9 +3,12 @@ import { AdminService } from '../methods/AdminService';
 import { MovieService } from '../methods/MovieService';
 import { Movie } from './Movie';
 import { Person } from './Person';
-import { Review } from './Review';
 import { User } from './User';
 
+/**
+ * Staff class represents a system staff member.
+ * Extends Person and includes login validation, financial handling, and user/movie tools.
+ */
 export class Staff extends Person {
   constructor(
     public id: number,
@@ -16,43 +19,52 @@ export class Staff extends Person {
     super(id, name, email);
   }
 
+  /**
+   * Returns the role of the person (Staff).
+   */
   getRole(): string {
     return 'Staff';
   }
 
-  // Login method to verify email
-login(enteredEmail: string, role: Role): boolean {
-  if (!enteredEmail) {
-    console.log(`Login failed for ${this.name}: Missing email.`);
-    return false;
-  }
-  if (!role) {
-    console.log(`Login failed for ${this.name}: Missing role.`);
-    return false;
+  /**
+   * Validates login credentials based on email and role.
+   */
+  login(enteredEmail: string, role: Role): boolean {
+    if (!enteredEmail) {
+      console.log(`Login failed for ${this.name}: Missing email.`);
+      return false;
+    }
+    if (!role) {
+      console.log(`Login failed for ${this.name}: Missing role.`);
+      return false;
+    }
+
+    if (this.email !== enteredEmail) {
+      console.log(`Login failed for ${this.name}: Incorrect email.`);
+      return false;
+    }
+
+    if (this.department !== role) {
+      console.log(`Login failed for ${this.name}: Incorrect role.`);
+      return false;
+    }
+
+    console.log(`Login succeeded for ${this.name} (Role: ${role})`);
+    return true;
   }
 
-  if (this.email !== enteredEmail) {
-    console.log(`Login failed for ${this.name}: Incorrect email.`);
-    return false;
-  }
-
-  if (this.department !== role) {
-    console.log(`Login failed for ${this.name}: Incorrect role.`);
-    return false;
-  }
-
-  console.log(`Login succeeded for ${this.name} (Role: ${role})`);
-  return true;
-}
-
-  // Method to generate a QR code (simulated)
+  /**
+   * Generates a mock QR code based on current time.
+   */
   generateQRCode(): string {
     const qrCode = `QR-${this.id}-${Date.now()}`;
     console.log(`${this.name} generated QR code: ${qrCode}`);
     return qrCode;
   }
 
-  // Method to collect money
+  /**
+   * Collects money and validates the amount.
+   */
   getMoney(amount: number): boolean {
     if (amount <= 0) {
       console.log(`Money collection failed for ${this.name}: Invalid amount.`);
@@ -61,21 +73,37 @@ login(enteredEmail: string, role: Role): boolean {
     console.log(`${this.name} collected $${amount} in ${this.department} department.`);
     return true;
   }
+
+  /**
+   * Displays the list of movies using MovieService.
+   */
   showMovies(movieService: MovieService): void {
-      movieService.showListOfMovie();
+    movieService.showListOfMovie();
   }
-    showSeatBook(adnimService:AdminService): void {
-        adnimService.showSeatBooked();
-    }
-      showUser(adnimService:AdminService): void {
-      adnimService.showListOfUser();
+
+  /**
+   * Displays information about booked seats using AdminService.
+   */
+  showSeatBook(adminService: AdminService): void {
+    adminService.showSeatBooked();
   }
-    checkUserBooking(users: User[]): void {
+
+  /**
+   * Displays the list of users using AdminService.
+   */
+  showUser(adminService: AdminService): void {
+    adminService.showListOfUser();
+  }
+
+  /**
+   * Displays each user's booking information.
+   */
+  checkUserBooking(users: User[]): void {
     if (users.length === 0) {
       console.log('No users found.');
       return;
     }
-  
+
     users.forEach(user => {
       console.log(`\n📌 User: ${user.name} (${user.email})`);
       if (user.booking.length === 0) {
@@ -96,7 +124,10 @@ login(enteredEmail: string, role: Role): boolean {
     });
   }
 
-showReview(movies: Movie[]): void {
+  /**
+   * Displays all reviews for all movies.
+   */
+  showReview(movies: Movie[]): void {
     console.log("======= Movie Reviews =======");
     let reviewCount = 0;
     movies.forEach(movie => {

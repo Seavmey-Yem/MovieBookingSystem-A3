@@ -2,6 +2,11 @@ import { Booking } from './Booking';
 import { Payment } from './Payment';
 import { Ticket } from './Ticket';
 
+
+/**
+ * Represents a Receipt for a movie booking.
+ * Includes booking, payment, ticket, and optional feedback (rating and comment).
+ */
 export class Receipt {
   constructor(
     public receiptId: number,
@@ -12,6 +17,10 @@ export class Receipt {
     public comment?: string
   ) {}
 
+  
+  /**
+   * Prints a formatted booking receipt.
+   */
   printReceipt(): void {
     console.log("----- Booking Receipt -----");
     console.log(`Booking ID: ${this.booking.id}`);

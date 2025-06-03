@@ -95,11 +95,11 @@ let booking2 = new Booking(
 let service = new AdminService();
 let bookingService = new BookingService();
 let receipt = bookingService.completeBooking(booking2, mobilePay);
-// user1.addBooking(booking2, receipt);
+user1.addBooking(booking2, receipt);
 // user1.showSeatBook(service);
 
 // admin.checkUserBooking([user1]);
 
 user1.addReview(movie1, 4.5, "Amazing movie with a deep plot!");
 
-Saff1.showReview(movieList);
+// Saff1.showReview(movieList);
