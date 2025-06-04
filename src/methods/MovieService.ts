@@ -4,15 +4,18 @@ import { ShowTime } from "../models/ShowTime";
 export class MovieService {
   constructor(public movies: Movie[]) {}
 
+  // Returns all movies that match the specified genre.
   getMoviesByGenre(genre: string): Movie[] {
     return this.movies.filter(movie => movie.genre === genre);
   }
 
+  // Returns all showtimes for the movie with the given title.
   getShowtimes(title: string): ShowTime[] {
     const movie = this.movies.find(m => m.title === title);
     return movie ? movie.showtime : [];
   }
 
+  // Displays a formatted list of all movies and their showtimes in the console.
   showListOfMovie(): void {
     if (this.movies.length === 0) {
       console.log("❌ No movies available.");
