@@ -4,12 +4,18 @@ import { ShowTime } from "../models/ShowTime";
 export class MovieService {
   constructor(public movies: Movie[]) {}
 
-  // Returns all movies that match the specified genre.
+  /**
+   * Returns all movies that match the specified genre.
+   * @param genre string - the genre to filter movies by
+   */
   getMoviesByGenre(genre: string): Movie[] {
     return this.movies.filter(movie => movie.genre === genre);
   }
 
-  // Returns all showtimes for the movie with the given title.
+  /**
+   * Returns all showtimes for the movie with the given title.
+   * @param title string - the title of the movie
+   */
   getShowtimes(title: string): ShowTime[] {
     const movie = this.movies.find(m => m.title === title);
     return movie ? movie.showtime : [];
