@@ -1,7 +1,7 @@
-
 import { Person } from './Person';
 import { Movie } from './Movie';
 
+// Represents a review for a movie written by a user.
 export class Review {
   constructor(
     public id: number,
@@ -10,6 +10,8 @@ export class Review {
     public rating: number,
     public comment: string
   ) {}
+
+    // Prints the review details to the console.
   printReview(): void {
   console.log("----- Review Details -----");
   console.log(`Movie: ${this.movie.title}`);
