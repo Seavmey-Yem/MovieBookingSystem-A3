@@ -1,5 +1,5 @@
 # OOP-Project
-This is project for my object orientated programming. The requirement for this project is to show the result in the consol.log to display the result. 
+This project is developed to demonstrate concepts of Object-Oriented Programming (OOP). The main goal is to showcase OOP principles through code whose output is displayed in the console log.
 
 # Priciple concepte OOP
 
